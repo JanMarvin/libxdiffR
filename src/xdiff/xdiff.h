@@ -44,6 +44,7 @@ extern "C" {
 #define XDF_INDENT_HEURISTIC (1 << 8)
 
 #define XDL_EMIT_FUNCNAMES (1 << 0)
+#define XDL_EMIT_NO_HUNK_HDR (1 << 1)
 #define XDL_EMIT_FUNCCONTEXT (1 << 2)
 
 #define XDL_MMB_READONLY (1 << 0)
@@ -67,6 +68,7 @@ extern "C" {
 
 /* merge output styles */
 #define XDL_MERGE_DIFF3 1
+#define XDL_MERGE_ZEALOUS_DIFF3 2
 
 typedef struct s_mmfile {
 	char *ptr;
