@@ -1,6 +1,14 @@
 PKGROOT = ./xdiff
 
-OBJECTS = rcpp_hello.o $(PKGROOT)/xdiffi.o $(PKGROOT)/xemit.o $(PKGROOT)/xhistogram.o $(PKGROOT)/xmerge.o $(PKGROOT)/xpatience.o $(PKGROOT)/xprepare.o $(PKGROOT)/xutils.o RcppExports.o
+OBJECTS = rcpp_hello.o \
+          $(PKGROOT)/xdiffi.o \
+          $(PKGROOT)/xemit.o \
+          $(PKGROOT)/xhistogram.o \
+          $(PKGROOT)/xmerge.o \
+          $(PKGROOT)/xpatience.o \
+          $(PKGROOT)/xprepare.o \
+          $(PKGROOT)/xutils.o \
+          RcppExports.o
 
 
 PKG_CPPFLAGS = -Ixdiff #-DXDIFF_H

@@ -1,4 +1,4 @@
-Package: diffutilsR
+Package: libxdiffR
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
@@ -12,3 +12,6 @@ LazyData: true
 Imports: Rcpp (>= 1.0.10)
 LinkingTo: Rcpp
 RoxygenNote: 7.2.3
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

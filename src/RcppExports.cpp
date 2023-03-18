@@ -10,26 +10,26 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// test
-int test(std::string ofile, std::string nfile, std::string argv);
-RcppExport SEXP _diffutilsR_test(SEXP ofileSEXP, SEXP nfileSEXP, SEXP argvSEXP) {
+// diff_file
+int diff_file(std::string ofile, std::string nfile, std::string difffile);
+RcppExport SEXP _libxdiffR_diff_file(SEXP ofileSEXP, SEXP nfileSEXP, SEXP difffileSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type ofile(ofileSEXP);
     Rcpp::traits::input_parameter< std::string >::type nfile(nfileSEXP);
-    Rcpp::traits::input_parameter< std::string >::type argv(argvSEXP);
-    rcpp_result_gen = Rcpp::wrap(test(ofile, nfile, argv));
+    Rcpp::traits::input_parameter< std::string >::type difffile(difffileSEXP);
+    rcpp_result_gen = Rcpp::wrap(diff_file(ofile, nfile, difffile));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_diffutilsR_test", (DL_FUNC) &_diffutilsR_test, 3},
+    {"_libxdiffR_diff_file", (DL_FUNC) &_libxdiffR_diff_file, 3},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_diffutilsR(DllInfo *dll) {
+RcppExport void R_init_libxdiffR(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

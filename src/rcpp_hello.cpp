@@ -1,13 +1,5 @@
 #include <Rcpp.h>
-#include <xdiff.h>
-
-int seen_hunk;
-
-
-void read_mmfile(mmfile_t *mf, std::string path) {
-  mf->ptr = (char*)path.c_str();
-  mf->size = path.size();
-}
+#include "xdiff/xdiff.h"
 
 static int write_diff(void *file, mmbuffer_t *mb, int nbuf)
 {
@@ -18,12 +10,12 @@ static int write_diff(void *file, mmbuffer_t *mb, int nbuf)
 }
 
 // [[Rcpp::export]]
-int test(std::string ofile, std::string nfile, std::string argv) {
+int diff_file(std::string ofile, std::string nfile, std::string difffile) {
 
   xdemitcb_t ecb;
   xpparam_t xpp;
   xdemitconf_t xecfg;
-  FILE* outfile = fopen("/tmp/test.diff", "w");
+  FILE* outfile = fopen(difffile.c_str(), "w");
 
   // xpparam_t param = { 1 };
   // xdemitconf_t econf = { 3 };
@@ -39,13 +31,14 @@ int test(std::string ofile, std::string nfile, std::string argv) {
   // param.flags = XDF_NEED_MINIMAL;
 
   mmfile_t f1, f2;
-  read_mmfile(&f1, ofile);
-  read_mmfile(&f2, nfile);
 
-  seen_hunk = 0;
+  f1.size = ofile.size();
+  f1.ptr =  (char*)ofile.c_str();
+  f2.size = nfile.size();
+  f2.ptr = (char*)nfile.c_str();
 
   memset(&xpp, 0, sizeof(xpp));
-  xpp.flags = XDF_PATIENCE_DIFF;
+  xpp.flags = 0;
   memset(&xecfg, 0, sizeof(xecfg));
   xecfg.ctxlen = 3;
   ecb.outf = write_diff;
@@ -53,9 +46,6 @@ int test(std::string ofile, std::string nfile, std::string argv) {
 
   int out = xdl_diff(&f1, &f2, &xpp, &xecfg, &ecb);
   fclose(outfile);
-
-//   free(f1.ptr);
-//   free(f2.ptr);
 
   return out;
 }

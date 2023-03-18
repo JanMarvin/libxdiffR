@@ -20,6 +20,7 @@
  *
  */
 
+#include <R.h> // for error()
 #include "xinclude.h"
 
 
@@ -803,8 +804,9 @@ static int group_slide_up(xdfile_t *xdf, struct xdlgroup *g, long flags)
 
 static void xdl_bug(const char *msg)
 {
-	fprintf(stderr, "BUG: %s\n", msg);
-	exit(1);
+	// fprintf(stderr, "BUG: %s\n", msg);
+	// exit(1);
+	error("BUG: %s\n", msg);
 }
 
 /*
