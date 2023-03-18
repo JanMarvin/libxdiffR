@@ -41,7 +41,7 @@ int diff_file(std::string ofile, std::string nfile, std::string difffile) {
   xpp.flags = 0;
   memset(&xecfg, 0, sizeof(xecfg));
   xecfg.ctxlen = 3;
-  ecb.out_line = write_diff;
+  ecb.outf = write_diff;
   ecb.priv = (void *) outfile;
 
   int out = xdl_diff(&f1, &f2, &xpp, &xecfg, &ecb);
