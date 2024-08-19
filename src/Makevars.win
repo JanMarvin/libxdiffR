@@ -1,30 +1,25 @@
+PKG_CPPFLAGS = -I. -Ixdiff
 
-PKGROOT = ./xdiff
+LIBXDIFF = \
+          xdiff/xdiffi.o \
+          xdiff/xemit.o \
+          xdiff/xhistogram.o \
+          xdiff/xmerge.o \
+          xdiff/xpatience.o \
+          xdiff/xprepare.o \
+          xdiff/xutils.o
 
-OBJECTS = rcpp_hello.o \
-          $(PKGROOT)/xdiffi.o \
-          $(PKGROOT)/xemit.o \
-          $(PKGROOT)/xhistogram.o \
-          $(PKGROOT)/xmerge.o \
-          $(PKGROOT)/xpatience.o \
-          $(PKGROOT)/xprepare.o \
-          $(PKGROOT)/xutils.o \
-          RcppExports.o
+STATLIB = xdiff/libxdiff.a
+PKG_LIBS=-Lxdiff -lxdiff -lregex
 
-PKG_CPPFLAGS = -Ixdiff
-PKG_CXXFLAGS=$(C_VISIBILITY)
-PKG_LIBS = \
-					-Lxdiff \
-					-lregex
+# PKG_CXXFLAGS= -Wall -pedantic
+all: clean
 
-XDIFF=xdiff/xdiffi.c \
-      xdiff/xpatience.c \
-      xdiff/xemit.c \
-      xdiff/xprepare.c \
-      xdiff/xutils.c \
-      xdiff/xmerge.c \
-      xdiff/xhistogram.c
+#all: $(SHLIB)
+$(SHLIB): $(STATLIB)
 
-# STATLIB = xdiff/
+$(STATLIB): $(LIBXDIFF)
+	$(AR) rcs xdiff/libxdiff.a $(LIBXDIFF)
 
-# all: $(SHLIB) $(XDIFF)
+clean:
+	rm -f $(OBJECTS) $(SHLIB) $(STATLIB) $(LIBXDIFF)
