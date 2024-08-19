@@ -13,8 +13,8 @@
  *  Lesser General Public License for more details.
  *
  *  You should have received a copy of the GNU Lesser General Public
- *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  License along with this library; if not, see
+ *  <http://www.gnu.org/licenses/>.
  *
  *  Davide Libenzi <davidel@xmailserver.org>
  *
@@ -56,9 +56,7 @@ int xdl_build_script(xdfenv_t *xe, xdchange_t **xscr);
 void xdl_free_script(xdchange_t *xscr);
 int xdl_emit_diff(xdfenv_t *xe, xdchange_t *xscr, xdemitcb_t *ecb,
 		  xdemitconf_t const *xecfg);
-int xdl_do_patience_diff(mmfile_t *mf1, mmfile_t *mf2, xpparam_t const *xpp,
-		xdfenv_t *env);
-int xdl_do_histogram_diff(mmfile_t *mf1, mmfile_t *mf2, xpparam_t const *xpp,
-		xdfenv_t *env);
+int xdl_do_patience_diff(xpparam_t const *xpp, xdfenv_t *env);
+int xdl_do_histogram_diff(xpparam_t const *xpp, xdfenv_t *env);
 
 #endif /* #if !defined(XDIFFI_H) */
