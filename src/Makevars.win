@@ -1,0 +1,30 @@
+
+PKGROOT = ./xdiff
+
+OBJECTS = rcpp_hello.o \
+          $(PKGROOT)/xdiffi.o \
+          $(PKGROOT)/xemit.o \
+          $(PKGROOT)/xhistogram.o \
+          $(PKGROOT)/xmerge.o \
+          $(PKGROOT)/xpatience.o \
+          $(PKGROOT)/xprepare.o \
+          $(PKGROOT)/xutils.o \
+          RcppExports.o
+
+PKG_CPPFLAGS = -Ixdiff #-DXDIFF_H
+PKG_CXXFLAGS=$(C_VISIBILITY)
+PKG_LIBS = \
+					-Lxdiff \
+					-lregex
+
+XDIFF=xdiff/xdiffi.c \
+      xdiff/xpatience.c \
+      xdiff/xemit.c \
+      xdiff/xprepare.c \
+      xdiff/xutils.c \
+      xdiff/xmerge.c \
+      xdiff/xhistogram.c
+
+# STATLIB = xdiff/
+
+# all: $(SHLIB) $(XDIFF)

@@ -1,3 +1,4 @@
+
 PKGROOT = ./xdiff
 
 OBJECTS = rcpp_hello.o \
