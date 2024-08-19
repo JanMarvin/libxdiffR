@@ -1,4 +1,4 @@
-#include <Rcpp.h>
+#include <Rcpp/Lightest>
 #include "xdiff/xdiff.h"
 
 static int write_diff(void *file, mmbuffer_t *mb, int nbuf)
@@ -28,7 +28,7 @@ int diff_file(std::string ofile, std::string nfile, std::string difffile) {
   memset(&xpp, 0, sizeof(xpp));
   memset(&xecfg, 0, sizeof(xecfg));
 
-  xpp.flags = 0;
+  xpp.flags = 0; // allow various flags:
   xecfg.ctxlen = 3;
   ecb.out_line = write_diff;
   ecb.priv = (void *) outfile;

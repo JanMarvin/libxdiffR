@@ -44,7 +44,10 @@
 #define xdl_free(ptr) free(ptr)
 #define xdl_realloc(ptr, x) realloc(ptr, x)
 
-#define XDL_BUG(msg) do { fprintf(stderr, "fatal: %s\n", msg); exit(128); } while(0)
+// #define XDL_BUG(msg) do { fprintf(stderr, "fatal: %s\n", msg); exit(128); } while(0)
+#include <R.h>
+#define XDL_BUG(msg) do { Rf_error("fatal: %s\n", msg); } while(0)
+
 
 #if defined(_MSC_VER) && !defined(XDL_REGEX)
 
