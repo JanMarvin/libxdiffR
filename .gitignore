@@ -5,6 +5,7 @@
 .vscode/*
 src/*.o
 src/xdiff/*.o
+src/xdiff/*.a
 src/*.so
 src/*.dll
 src-i386/*.dll
