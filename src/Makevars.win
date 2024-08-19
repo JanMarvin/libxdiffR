@@ -11,7 +11,7 @@ OBJECTS = rcpp_hello.o \
           $(PKGROOT)/xutils.o \
           RcppExports.o
 
-PKG_CPPFLAGS = -Ixdiff #-DXDIFF_H
+PKG_CPPFLAGS = -Ixdiff
 PKG_CXXFLAGS=$(C_VISIBILITY)
 PKG_LIBS = \
 					-Lxdiff \
