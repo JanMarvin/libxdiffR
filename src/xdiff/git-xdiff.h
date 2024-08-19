@@ -62,20 +62,47 @@ inline int xdl_regexec_buf(
 }
 
 #else
-# include <regex.h>
+#if __has_include(<regex.h>)
+// Use POSIX regex.h if available
+#include <regex.h>
 
-# define xdl_regex_t regex_t
-# define xdl_regmatch_t regmatch_t
+#define xdl_regex_t regex_t
+#define xdl_regmatch_t regmatch_t
 
 inline int xdl_regexec_buf(
-	const xdl_regex_t *preg, const char *buf, size_t size,
-	size_t nmatch, xdl_regmatch_t pmatch[], int eflags)
+    const xdl_regex_t *preg, const char *buf, size_t size,
+    size_t nmatch, xdl_regmatch_t pmatch[], int eflags)
 {
-    pmatch[0].rm_so = 0;
-    pmatch[0].rm_eo = size;
+  pmatch[0].rm_so = 0;
+  pmatch[0].rm_eo = size;
 
-    return regexec(preg, buf, nmatch, pmatch, eflags | REG_STARTEND);
+  return regexec(preg, buf, nmatch, pmatch, eflags | REG_STARTEND);
 }
+
+#else
+// Fallback to C++ <regex> if regex.h is not available
+#include <regex>
+#include <string>
+
+#define xdl_regex_t std::regex
+#define xdl_regmatch_t std::smatch
+
+inline bool xdl_regexec_buf(
+    const xdl_regex_t& preg, const char* buf, size_t size,
+    size_t nmatch, xdl_regmatch_t& pmatch, int eflags)
+{
+  std::string str(buf, size);  // Convert the buffer to a std::string
+
+  bool match_found = std::regex_search(str, pmatch, preg);
+
+  if (match_found) {
+    pmatch[0].first = str.begin();  // Equivalent to rm_so
+    pmatch[0].second = str.end();   // Equivalent to rm_eo
+  }
+
+  return match_found;
+}
+#endif
 
 #endif /* XDL_NO_REGEX */
 
