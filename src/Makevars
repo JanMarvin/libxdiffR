@@ -1,0 +1,25 @@
+PKG_CPPFLAGS = -I. -Ixdiff
+
+LIBXDIFF = \
+          xdiff/xdiffi.o \
+          xdiff/xemit.o \
+          xdiff/xhistogram.o \
+          xdiff/xmerge.o \
+          xdiff/xpatience.o \
+          xdiff/xprepare.o \
+          xdiff/xutils.o
+
+STATLIB = xdiff/libxdiff.a
+PKG_LIBS=-Lxdiff -lxdiff
+
+# PKG_CXXFLAGS= -Wall -pedantic
+all: clean
+
+#all: $(SHLIB)
+$(SHLIB): $(STATLIB)
+
+$(STATLIB): $(LIBXDIFF)
+	$(AR) rcs xdiff/libxdiff.a $(LIBXDIFF)
+
+clean:
+	rm -f $(OBJECTS) $(SHLIB) $(STATLIB) $(LIBXDIFF)
