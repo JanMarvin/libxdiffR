@@ -17,29 +17,18 @@ int diff_file(std::string ofile, std::string nfile, std::string difffile) {
   xdemitconf_t xecfg;
   FILE* outfile = fopen(difffile.c_str(), "w");
 
-  // xpparam_t param = { 1 };
-  // xdemitconf_t econf = { 3 };
-  // xdemitcb_t ecb = { NULL, NULL, };
-  // ecb.priv = stdout;
-  // econf.ctxlen = 20;
-
-  // FILE *fd;
-  // fd = fopen("/tmp/test.diff", "a");
-  // ecb.priv = fd;
-  // ecb.outf = fn_out;
-
-  // param.flags = XDF_NEED_MINIMAL;
-
   mmfile_t f1, f2;
 
   f1.size = ofile.size();
-  f1.ptr =  (char*)ofile.c_str();
+  f1.ptr  = ofile.data();
   f2.size = nfile.size();
-  f2.ptr = (char*)nfile.c_str();
+  f2.ptr  = nfile.data();
 
+  memset(&ecb, 0, sizeof(ecb));
   memset(&xpp, 0, sizeof(xpp));
-  xpp.flags = 0;
   memset(&xecfg, 0, sizeof(xecfg));
+
+  xpp.flags = 0;
   xecfg.ctxlen = 3;
   ecb.out_line = write_diff;
   ecb.priv = (void *) outfile;
