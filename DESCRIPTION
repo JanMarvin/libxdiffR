@@ -8,8 +8,7 @@ Authors@R: c(
   person("libgit2 project", role = c("cph"), comment = "Authors of included xdiff code")
   )
 Maintainer: Jan Marvin Garbuszus <jan.garbuszus@ruhr-uni-bochum.de>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Bundles xdiff to create unidiffs from R.
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
