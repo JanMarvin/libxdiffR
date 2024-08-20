@@ -10,7 +10,13 @@ LIBXDIFF = \
           xdiff/xutils.o
 
 STATLIB = xdiff/libxdiff.a
-PKG_LIBS=-Lxdiff -lxdiff -lregex
+PKG_LIBS=-Lxdiff -lxdiff
+
+R_VERSION := $(shell "$(R_HOME)/bin/$(R_ARCH_BIN)/Rscript.exe" - e "cat(as.numeric(R.version$major) + as.numeric(R.version$minor)/10)")
+
+ifeq ($(shell expr $(R_VERSION) \>= 4.2), 1)
+	PKG_LIBS += -lregex
+endif
 
 # PKG_CXXFLAGS= -Wall -pedantic
 all: clean

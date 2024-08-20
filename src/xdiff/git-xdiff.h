@@ -48,8 +48,8 @@
 #include <R.h>
 #define XDL_BUG(msg) do { Rf_error("fatal: %s\n", msg); } while(0)
 
-
-#if defined(_MSC_VER) && !defined(XDL_REGEX)
+#include <Rversion.h>
+#if defined(_WIN32) && _WIN32 && defined(R_VERSION) && R_VERSION < R_Version(4, 2, 0)
 
 # define xdl_regex_t void *
 # define xdl_regmatch_t void *
