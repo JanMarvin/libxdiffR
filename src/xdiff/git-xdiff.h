@@ -51,8 +51,21 @@
 #include <Rversion.h>
 #if defined(_WIN32) && _WIN32 && defined(R_VERSION) && R_VERSION < R_Version(4, 2, 0)
 
-# define xdl_regex_t void *
-# define xdl_regmatch_t void *
+// avoid Wincompatible-pointer-types warnings, define the structs so that we
+// bail silently
+typedef struct {
+  size_t    re_nsub;
+} regex_t;
+
+typedef ssize_t regoff_t;
+
+typedef struct {
+  regoff_t  rm_so;
+  regoff_t  rm_eo;
+} regmatch_t;
+
+# define xdl_regex_t regex_t
+# define xdl_regmatch_t regmatch_t
 
 inline int xdl_regexec_buf(
 	const xdl_regex_t *preg, const char *buf, size_t size,
