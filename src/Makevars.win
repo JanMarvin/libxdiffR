@@ -12,10 +12,12 @@ LIBXDIFF = \
 STATLIB = xdiff/libxdiff.a
 PKG_LIBS=-Lxdiff -lxdiff
 
-R_VERSION := $(shell "$(R_HOME)/bin/$(R_ARCH_BIN)/Rscript.exe" - e "cat(as.numeric(R.version$major) + as.numeric(R.version$minor)/10)")
+RVER = $(shell "${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" -e 'cat(as.numeric(R.version$$major) + as.numeric(R.version$$minor)/10)')
 
-ifeq ($(shell expr $(R_VERSION) \>= 4.2), 1)
+ifeq ($(shell expr $(RVER) \>= 4.2), 1)
 	PKG_LIBS += -lregex
+else
+	PKG_CPPFLAGS += -Wno-incompatible-pointer-types
 endif
 
 # PKG_CXXFLAGS= -Wall -pedantic

@@ -20,9 +20,9 @@ int diff_file(std::string ofile, std::string nfile, std::string difffile) {
   mmfile_t f1, f2;
 
   f1.size = ofile.size();
-  f1.ptr  = ofile.data();
+  f1.ptr  = (char*)ofile.c_str();
   f2.size = nfile.size();
-  f2.ptr  = nfile.data();
+  f2.ptr  = (char*)nfile.c_str();
 
   memset(&ecb, 0, sizeof(ecb));
   memset(&xpp, 0, sizeof(xpp));
