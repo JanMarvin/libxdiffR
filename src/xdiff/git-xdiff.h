@@ -49,7 +49,7 @@
 #define XDL_BUG(msg) do { Rf_error("fatal: %s\n", msg); } while(0)
 
 #include <Rversion.h>
-#if defined(_WIN32) && _WIN32 && defined(R_VERSION) && R_VERSION < R_Version(4, 2, 0)
+#if defined(_WIN32) && defined(R_VERSION) && R_VERSION < R_Version(4, 2, 0)
 
 // avoid Wincompatible-pointer-types warnings, define the structs so that we
 // bail silently
@@ -79,6 +79,10 @@ inline int xdl_regexec_buf(
 
 # define xdl_regex_t regex_t
 # define xdl_regmatch_t regmatch_t
+
+#ifndef REG_STARTEND
+# define REG_STARTEND 00004
+#endif
 
 inline int xdl_regexec_buf(
 	const xdl_regex_t *preg, const char *buf, size_t size,
