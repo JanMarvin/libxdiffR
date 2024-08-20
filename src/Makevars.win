@@ -16,6 +16,8 @@ RVER = $(shell "${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" -e 'cat(as.numeric(R.ver
 
 ifeq ($(shell expr $(RVER) \>= 4.2), 1)
 	PKG_LIBS += -lregex
+else
+	PKG_CPPFLAGS += -Wno-incompatible-pointer-types
 endif
 
 # PKG_CXXFLAGS= -Wall -pedantic
