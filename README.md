@@ -13,11 +13,6 @@ Currently this package provides just one function:
 unidiff(old, new, create_head = FALSE)
 ```
 
-Since this package requires `<regex.h>` and the Windows rtools ship this
-starting R 4.2, the package cannot be built with R \< 4.2 on Windows. It
-might be possible to use the `tre` library to circumvent this issue, but
-somebody couldn’t make it work.
-
 This package can be used with
 [`diffr2`](https://github.com/JanMarvin/diffr2) as a replacement for the
 jsdiff tool.
