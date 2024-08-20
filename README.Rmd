@@ -2,6 +2,8 @@
 title: "libxdiffR"
 output: github_document
 ---
+[![R-CMD-check](https://github.com/JanMarvin/libxdiffR/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/JanMarvin/libxdiffR/actions/workflows/check-standard.yaml)
+[![r-universe](https://janmarvin.r-universe.dev/badges/libxdiffR)](https://janmarvin.r-universe.dev/libxdiffR)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
