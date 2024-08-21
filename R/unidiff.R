@@ -11,11 +11,24 @@ unidiff <- function(old, new, create_head = TRUE) {
   old_name <- "old"
   new_name <- "new"
 
-  if (file.exists(old) || file.exists(new)) {
+  if (file.exists(old)) {
     old_name <- old
     old <- paste0(readLines(old, warn = FALSE), collapse = "\n")
+  }
+
+  if (file.exists(new)) {
     new_name <- new
     new <- paste0(readLines(new, warn = FALSE), collapse = "\n")
+  }
+
+  if (is.na(old)) {
+    old_name <- "/dev/null"
+    old <- ""
+  }
+
+  if (is.na(new)) {
+    new_name <- "/dev/null"
+    new <- ""
   }
 
   head <- sprintf(

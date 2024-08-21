@@ -1,0 +1,84 @@
+#' Function to generate MD5 hashes for all files in a directory
+#' @param directory the file directory to create md5 hashes for
+#' @importFrom digest digest
+#' @noRd
+generate_md5_df <- function(directory) {
+  # Get a list of all files in the directory and its subdirectories
+  files <- dir(directory, recursive = TRUE, full.names = TRUE)
+
+  # Create a data frame with file names and their MD5 hashes
+  md5_df <- data.frame(
+    file_path = files,
+    file_name = basename(files),
+    md5_hash = sapply(files, digest::digest, algo = "md5", file = TRUE),
+    stringsAsFactors = FALSE
+  )
+
+  md5_df$origin <- gsub(directory, ".", md5_df$file_path)
+
+  md5_df
+}
+
+
+#' Function to compare files between two directories
+#' @param old,new directories to check
+#' @noRd
+compare_directories <- function(old, new) {
+  # Generate MD5 dataframes for both directories
+  df1 <- generate_md5_df(old)
+  df2 <- generate_md5_df(new)
+
+  # Full join to compare files based on file name
+  all_files <- merge(df1, df2, by = "origin", all = TRUE, suffixes = c("_dir1", "_dir2"))
+
+  # Identify status of each file
+  all_files$status <- ifelse(
+    is.na(all_files$file_path_dir2),
+    "Deleted",
+    ifelse(
+      is.na(all_files$file_path_dir1),
+      "Newly Created",
+      ifelse(
+        all_files$md5_hash_dir1 != all_files$md5_hash_dir2,
+        "Modified",
+        "Unchanged"
+      )
+    )
+  )
+
+  # Detect renamed files
+  # Select rows where file paths are missing in one of the directories
+  possible_renames <- all_files[c(is.na(all_files$file_name_dir1) | is.na(all_files$file_name_dir2)), ]
+
+  # Merge to detect possible renames based on MD5 hash
+  possible_renames1 <- possible_renames[!is.na(possible_renames$md5_hash_dir1), c("md5_hash_dir1", "file_name_dir1", "file_path_dir1")]
+  possible_renames2 <- possible_renames[!is.na(possible_renames$md5_hash_dir2), c("md5_hash_dir2", "file_name_dir2", "file_path_dir2")]
+
+  rename_matches <- merge(possible_renames1, possible_renames2, by.x = "md5_hash_dir1", by.y = "md5_hash_dir2", all.x = FALSE, all.y = FALSE)
+  rename_matches$status <- "Renamed"
+
+  # Update the main comparison dataframe with rename information
+  sel <- match(rename_matches$md5_hash_dir1, all_files$md5_hash_dir2)
+  all_files[sel, names(rename_matches)] <- rename_matches
+
+  # Filter out unchanged files and select relevant columns
+  final_comparison <- all_files[all_files$status != "Unchanged", c("file_path_dir1", "file_path_dir2", "status")]
+
+  final_comparison
+}
+
+
+#' Function to diff files between two directories
+#' @param old,new directories to check
+#' @export
+unidiff_dir <- function(old, new) {
+  comparison_result <- compare_directories(old, new)
+
+  diffs <- vapply(seq_len(nrow(comparison_result)), function(x) {
+    unidiff(comparison_result[x, "file_path_dir1"], comparison_result[x, "file_path_dir2"])
+  }, NA_character_)
+
+  diff_dir <- paste0(diffs, collapse = "\n")
+
+  diff_dir
+}
