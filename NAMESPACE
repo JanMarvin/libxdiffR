@@ -3,4 +3,5 @@
 export(unidiff)
 export(unidiff_dir)
 importFrom(digest,digest)
+importFrom(utils,download.file)
 useDynLib(libxdiffR,R_diff_file)

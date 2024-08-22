@@ -88,3 +88,16 @@ test_that("errors work", {
   expect_error(unidiff(new = 1, old = c(a = "a  b")), "old and new must be characters")
 
 })
+
+test_that("downloads work", {
+
+  skip_if_offline()
+
+  exp <- "===================================================================\n--- old\n+++ new\n   for (i in seq_len(nSheets)) {\n     if (sheets$typ[i] == \"worksheet\") {\n       if (length(wb$worksheets[[i]]$headerFooter)) {\n-        wb$worksheets[[i]]$headerFooter <- getHeaderFooterNode(wb$worksheets[[i]]$headerFooter)\n+        # get attributes\n+        hf_attrs <- rbindlist(xml_attr(wb$worksheets[[i]]$headerFooter, \"headerFooter\"))\n+\n+        if (!is.null(hf_attrs$alignWithMargins))\n+          wb$worksheets[[i]]$align_with_margins <- as.logical(as.integer(hf_attrs$alignWithMargins))\n+\n+        if (!is.null(hf_attrs$scaleWithDoc))\n+          wb$worksheets[[i]]$scale_with_doc     <- as.logical(as.integer(hf_attrs$scaleWithDoc))\n+\n+        wb$worksheets[[i]]$headerFooter       <- getHeaderFooterNode(wb$worksheets[[i]]$headerFooter)\n       }\n     }\n   }"
+  got <- unidiff(
+    old = "https://raw.githubusercontent.com/JanMarvin/openxlsx2/8b99b77ebf00a89da07d4b81542efaba51551cd9/R/wb_load.R",
+    new = "https://raw.githubusercontent.com/JanMarvin/openxlsx2/228c51fbe2b0da74b434ca5f2a4aa2c833397bd6/R/wb_load.R"
+  )
+  expect_equal(exp, got)
+
+})

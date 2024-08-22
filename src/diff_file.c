@@ -43,6 +43,7 @@ SEXP R_diff_file(SEXP ofile, SEXP nfile, SEXP difffile) {
 
   xpp.flags = 0; // allow various flags
   xecfg.ctxlen = 3;
+  xecfg.flags = XDL_EMIT_FUNCNAMES;
   ecb.out_line = write_diff;
   ecb.priv = (void *) outfile;
 
