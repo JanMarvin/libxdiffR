@@ -4,10 +4,13 @@
 \alias{unidiff_dir}
 \title{Function to diff files between two directories}
 \usage{
-unidiff_dir(old, new)
+unidiff_dir(old, new, pattern = NULL)
 }
 \arguments{
 \item{old, new}{directories to check}
+
+\item{pattern}{an optional \link[base]{regular expression}.  Only file names
+    which match the regular expression will be returned.}
 }
 \description{
 Function to diff files between two directories

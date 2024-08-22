@@ -10,10 +10,11 @@ been unbundled by the libgit2 project.
 
 Our sources are from here: <https://github.com/libgit2/xdiff>
 
-Currently this package provides just one function:
+Currently this package provides now two functions:
 
 ``` r
-unidiff(old, new, create_head = FALSE)
+unidiff(old, new)
+unidiff_dir(old, new)
 ```
 
 This package can be used with

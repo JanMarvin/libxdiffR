@@ -1,8 +1,9 @@
 #' Function to generate MD5 hashes for all files in a directory
 #' @param directory the file directory to create md5 hashes for
 #' @importFrom digest digest
+#' @inheritParams base::list.files
 #' @noRd
-generate_md5_df <- function(directory) {
+generate_md5_df <- function(directory, pattern = NULL) {
   # Get a list of all files in the directory and its subdirectories
   files <- dir(directory, recursive = TRUE, full.names = TRUE)
 
@@ -22,11 +23,12 @@ generate_md5_df <- function(directory) {
 
 #' Function to compare files between two directories
 #' @param old,new directories to check
+#' @inheritParams base::list.files
 #' @noRd
-compare_directories <- function(old, new) {
+compare_directories <- function(old, new, pattern = NULL) {
   # Generate MD5 dataframes for both directories
-  df1 <- generate_md5_df(old)
-  df2 <- generate_md5_df(new)
+  df1 <- generate_md5_df(old, pattern = pattern)
+  df2 <- generate_md5_df(new, pattern = pattern)
 
   # Full join to compare files based on file name
   all_files <- merge(df1, df2, by = "origin", all = TRUE, suffixes = c("_dir1", "_dir2"))
@@ -70,9 +72,10 @@ compare_directories <- function(old, new) {
 
 #' Function to diff files between two directories
 #' @param old,new directories to check
+#' @inheritParams base::list.files
 #' @export
-unidiff_dir <- function(old, new) {
-  comparison_result <- compare_directories(old, new)
+unidiff_dir <- function(old, new, pattern = NULL) {
+  comparison_result <- compare_directories(old, new, pattern = pattern)
 
   diffs <- vapply(seq_len(nrow(comparison_result)), function(x) {
     unidiff(comparison_result[x, "file_path_dir1"], comparison_result[x, "file_path_dir2"])
