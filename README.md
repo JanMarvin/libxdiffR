@@ -3,6 +3,7 @@ libxdiffR
 
 [![R-CMD-check](https://github.com/JanMarvin/libxdiffR/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/JanMarvin/libxdiffR/actions/workflows/check-standard.yaml)
 [![r-universe](https://janmarvin.r-universe.dev/badges/libxdiffR)](https://janmarvin.r-universe.dev/libxdiffR)
+[![codecov](https://codecov.io/gh/JanMarvin/libxdiffR/graph/badge.svg?token=9PERJAFW24)](https://codecov.io/gh/JanMarvin/libxdiffR)
 
 This package bundles the `xdiff` library from `git`. Originally this was
 an independent project that was bundled by the git project and has now
