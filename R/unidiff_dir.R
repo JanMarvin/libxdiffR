@@ -57,7 +57,7 @@ compare_directories <- function(old, new, pattern = NULL) {
   possible_renames2 <- possible_renames[!is.na(possible_renames$md5_hash_dir2), c("md5_hash_dir2", "file_name_dir2", "file_path_dir2")]
 
   rename_matches <- merge(possible_renames1, possible_renames2, by.x = "md5_hash_dir1", by.y = "md5_hash_dir2", all.x = FALSE, all.y = FALSE)
-  rename_matches$status <- "Renamed"
+  if (NROW(rename_matches)) rename_matches$status <- "Renamed"
 
   # Update the main comparison dataframe with rename information
   sel <- match(rename_matches$md5_hash_dir1, all_files$md5_hash_dir2)

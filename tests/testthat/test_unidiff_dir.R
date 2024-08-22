@@ -128,3 +128,26 @@ test_that("unidiff_dir() works", {
   unlink(dir2, recursive = TRUE)
 
 })
+
+test_that("test dir", {
+
+  dir1 <- paste0(test_path(), "/dir1")
+  dir2 <- paste0(test_path(), "/dir2")
+  dir.create(dir1)
+  dir.create(dir2)
+
+  fl1 <- file(paste0(dir1, "/foo.txt"))
+  fl2 <- file(paste0(dir2, "/bar.txt"))
+
+  writeLines("foo", fl1)
+  writeLines("bar", fl2)
+
+  exp <- "===================================================================\n--- /dev/null\n+++ tests/testthat/dir2/bar.txt\n@@ -0,0 +1 @@\n+bar\n\\ No newline at end of file\n===================================================================\n--- tests/testthat/dir1/foo.txt\n+++ /dev/null\n@@ -1 +0,0 @@\n-foo\n\\ No newline at end of file"
+  exp <- gsub(exp, pattern = "tests/testthat", replacement = testthat::test_path())
+  got <- unidiff_dir(dir1, dir2)
+  expect_equal(exp, got)
+
+  unlink(dir1, recursive = TRUE)
+  unlink(dir2, recursive = TRUE)
+
+})
