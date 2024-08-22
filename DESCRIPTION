@@ -12,8 +12,7 @@ Description: Bundles xdiff to create unidiffs from R.
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
-Imports: Rcpp (>= 1.0.10), digest
-LinkingTo: Rcpp
+Imports: digest
 RoxygenNote: 7.3.2
 Suggests: 
     testthat (>= 3.0.0), fs, stringi

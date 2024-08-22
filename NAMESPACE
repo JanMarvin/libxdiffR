@@ -2,6 +2,5 @@
 
 export(unidiff)
 export(unidiff_dir)
-import(Rcpp)
 importFrom(digest,digest)
-useDynLib(libxdiffR, .registration=TRUE)
+useDynLib(libxdiffR,R_diff_file)

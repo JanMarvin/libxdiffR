@@ -1,10 +1,15 @@
+#' @useDynLib libxdiffR R_diff_file
+diff_file <- function(ofile, nfile, difffile){
+  stopifnot(is.character(ofile))
+  stopifnot(is.character(nfile))
+  stopifnot(is.character(difffile))
+  .Call(R_diff_file, ofile, nfile, difffile)
+}
+
 #' create unified diffs
 #' @param old oldfile
 #' @param new oldfile
 #' @param create_head add a header to the file
-#' @useDynLib libxdiffR, .registration=TRUE
-#'
-#' @import Rcpp
 #' @export
 unidiff <- function(old, new, create_head = TRUE) {
 

@@ -21,4 +21,7 @@ cran-comments.md
 ^Meta$
 ^README\.Rmd$
 ^inst/img$
-\.o$
+.*\.so
+.*\.dll
+.*\.o
+.*\.a

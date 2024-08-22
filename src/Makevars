@@ -1,4 +1,4 @@
-PKG_CPPFLAGS = -I. -Ixdiff
+PKG_CFLAGS = -I. -Ixdiff
 
 LIBXDIFF = \
           xdiff/xdiffi.o \
@@ -9,17 +9,17 @@ LIBXDIFF = \
           xdiff/xprepare.o \
           xdiff/xutils.o
 
-STATLIB = xdiff/libxdiff.a
-PKG_LIBS=-Lxdiff -lxdiff
+STATLIB = xdiff/libstatxdiff.a
+PKG_LIBS = -Lxdiff -lstatxdiff
 
-# PKG_CXXFLAGS= -Wall -pedantic
+# PKG_CFLAGS= -Wall -pedantic
 all: clean
 
 #all: $(SHLIB)
 $(SHLIB): $(STATLIB)
 
 $(STATLIB): $(LIBXDIFF)
-	$(AR) rcs xdiff/libxdiff.a $(LIBXDIFF)
+	$(AR) rcs xdiff/libstatxdiff.a $(LIBXDIFF)
 
 clean:
 	rm -f $(OBJECTS) $(SHLIB) $(STATLIB) $(LIBXDIFF)
