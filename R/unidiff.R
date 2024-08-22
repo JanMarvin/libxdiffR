@@ -13,16 +13,23 @@ diff_file <- function(ofile, nfile, difffile){
 #' @export
 unidiff <- function(old, new, create_head = TRUE) {
 
-  old_name <- "old"
-  new_name <- "new"
+  if (!is.character(old) || !is.character(new)) {
+    stop("old and new must be characters")
+  }
+
+  old <- force(old)
+  new <- force(new)
+
+  old_name <- ifelse(is.null(names(old)), "old", names(old))
+  new_name <- ifelse(is.null(names(new)), "new", names(new))
 
   if (file.exists(old)) {
-    old_name <- old
+    if (is.null(names(old)) && old_name == "old") old_name <- old
     old <- paste0(readLines(old, warn = FALSE), collapse = "\n")
   }
 
   if (file.exists(new)) {
-    new_name <- new
+    if (is.null(names(new)) && new_name == "new") new_name <- new
     new <- paste0(readLines(new, warn = FALSE), collapse = "\n")
   }
 
