@@ -1,5 +1,5 @@
 #' @useDynLib libxdiffR R_diff_file
-diff_file <- function(ofile, nfile, difffile){
+diff_file <- function(ofile, nfile, difffile) {
   stopifnot(is.character(ofile))
   stopifnot(is.character(nfile))
   stopifnot(is.character(difffile))

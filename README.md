@@ -11,11 +11,12 @@ been unbundled by the libgit2 project.
 
 Our sources are from here: <https://github.com/libgit2/xdiff>
 
-Currently this package provides now two functions:
+Currently this package provides now three functions:
 
 ``` r
 unidiff(old, new)
 unidiff_dir(old, new)
+merge3(base, ours, theirs)
 ```
 
 This package can be used with
