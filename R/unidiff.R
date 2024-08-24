@@ -1,18 +1,28 @@
 #' @useDynLib libxdiffR R_diff_file
-diff_file <- function(ofile, nfile, difffile) {
+diff_file <- function(ofile, nfile, difffile, funccontext, cntxtlen, ignore_whitespace, algorithm, indent) {
   stopifnot(is.character(ofile))
   stopifnot(is.character(nfile))
   stopifnot(is.character(difffile))
-  .Call(R_diff_file, ofile, nfile, difffile)
+  stopifnot(is.logical(funccontext))
+  stopifnot(is.integer(cntxtlen))
+  stopifnot(is.integer(ignore_whitespace))
+  stopifnot(is.integer(algorithm))
+  stopifnot(is.logical(indent))
+  .Call(R_diff_file, ofile, nfile, difffile, funccontext, cntxtlen, ignore_whitespace, algorithm, indent)
 }
 
 #' create unified diffs
 #' @param old oldfile
 #' @param new oldfile
 #' @param create_head add a header to the file
+#' @param with_context add full context
+#' @param context_length length of context
+#' @param ignore_whitespace used a selection of c("all", "change", "at_eol", "cr_at_eol", "blank_lines")
+#' @param algorithm "minimal", "patience", or "histogram"
+#' @param indent_heuristic something ...
 #' @importFrom utils download.file
 #' @export
-unidiff <- function(old, new, create_head = TRUE) {
+unidiff <- function(old, new, create_head = TRUE, with_context = FALSE, context_length = 3, ignore_whitespace = NULL, algorithm = "minimal", indent_heuristic = FALSE) {
 
   if (!is.character(old) || !is.character(new)) {
     stop("old and new must be characters")
@@ -66,8 +76,25 @@ unidiff <- function(old, new, create_head = TRUE) {
     new_name
   )
 
+  iws <- vector("integer", length = 5)
+
+  ignore_whitespace <- tolower(ignore_whitespace)
+  if ("all" %in% ignore_whitespace)         iws[1] <- 1L
+  if ("change" %in% ignore_whitespace)      iws[2] <- 1L
+  if ("at_eol" %in% ignore_whitespace)      iws[3] <- 1L
+  if ("cr_at_eol" %in% ignore_whitespace)   iws[4] <- 1L
+  if ("blank_lines" %in% ignore_whitespace) iws[5] <- 1L
+
+  algorithm <- switch(
+    tolower(algorithm),
+    "minimal"   = 0L, # the default
+    "patience"  = 1L,
+    "histogram" = 2L
+  )
+
   tmp <- tempfile()
-  diff_file(old, new, tmp)
+  if (diff_file(old, new, tmp, with_context, as.integer(context_length), iws, algorithm, indent_heuristic))
+    stop("unable to create diff")
 
   body <- paste0(readLines(tmp), collapse = "\n")
 

@@ -29,11 +29,11 @@ merge3 <- function(base, merge1, merge2, level = "minimal", favor = NULL, style 
   merge2 <- force(merge2)
 
   if (grepl("^http|^https", base)) {
-    tmp_old <- tempfile()
+    tmp_base <- tempfile()
     download.file(url = base, destfile = tmp_base, cacheOK = FALSE, mode = "w", quiet = TRUE)
     nams_base <- names(base)
     base <- paste0(readLines(tmp_base, warn = FALSE), collapse = "\n")
-    names(base) <- nams_old
+    names(base) <- nams_base
   }
 
   if (grepl("^http|^https", merge1)) {

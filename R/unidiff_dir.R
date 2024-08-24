@@ -73,12 +73,22 @@ compare_directories <- function(old, new, pattern = NULL) {
 #' Function to diff files between two directories
 #' @param old,new directories to check
 #' @inheritParams base::list.files
+#' @inheritParams unidiff
 #' @export
-unidiff_dir <- function(old, new, pattern = NULL) {
+unidiff_dir <- function(old, new, pattern = NULL, create_head = TRUE, with_context = FALSE, context_length = 3, ignore_whitespace = NULL, algorithm = "minimal", indent_heuristic = FALSE) {
   comparison_result <- compare_directories(old, new, pattern = pattern)
 
   diffs <- vapply(seq_len(nrow(comparison_result)), function(x) {
-    unidiff(comparison_result[x, "file_path_dir1"], comparison_result[x, "file_path_dir2"])
+    unidiff(
+      old = comparison_result[x, "file_path_dir1"],
+      new = comparison_result[x, "file_path_dir2"],
+      create_head = create_head,
+      with_context = with_context,
+      context_length = context_length,
+      ignore_whitespace = ignore_whitespace,
+      algorithm = algorithm,
+      indent_heuristic = indent_heuristic
+    )
   }, NA_character_)
 
   diff_dir <- paste0(diffs, collapse = "\n")

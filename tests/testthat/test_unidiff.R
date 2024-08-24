@@ -8,15 +8,21 @@ This part of the document has stayed the same from version to version.  It shoul
 It is important to spell check this document. On the other hand, a misspelled word isn't the end of the world. Nothing in the rest of this paragraph needs to be changed. Things can be added after it.
 This paragraph contains important new additions to this document."
 
-  got <- unidiff(old, new, create_head = FALSE)
-
   exp <- "@@ -1,3 +1,4 @@\n+This is an important notice! It should therefore be located at the beginning of this document!\n This part of the document has stayed the same from version to version.  It shouldn't be shown if it doesn't change.  Otherwise, that would not be helping to compress the size of the changes.\n-This paragraph contains text that is outdated. It will be deleted in the near future.\n-It is important to spell check this dokument. On the other hand, a misspelled word isn't the end of the world. Nothing in the rest of this paragraph needs to be changed. Things can be added after it.\n\\ No newline at end of file\n+It is important to spell check this document. On the other hand, a misspelled word isn't the end of the world. Nothing in the rest of this paragraph needs to be changed. Things can be added after it.\n+This paragraph contains important new additions to this document.\n\\ No newline at end of file"
+  got <- unidiff(old, new, create_head = FALSE)
+  expect_equal(got, exp)
+
+  got <- unidiff(old, new, create_head = FALSE, algorithm = "patience")
+  expect_equal(got, exp)
+
+  got <- unidiff(old, new, create_head = FALSE, algorithm = "histogram")
   expect_equal(got, exp)
 
   got <- unidiff(old, new, create_head = TRUE)
 
   exp <- "===================================================================\n--- old\n+++ new\n@@ -1,3 +1,4 @@\n+This is an important notice! It should therefore be located at the beginning of this document!\n This part of the document has stayed the same from version to version.  It shouldn't be shown if it doesn't change.  Otherwise, that would not be helping to compress the size of the changes.\n-This paragraph contains text that is outdated. It will be deleted in the near future.\n-It is important to spell check this dokument. On the other hand, a misspelled word isn't the end of the world. Nothing in the rest of this paragraph needs to be changed. Things can be added after it.\n\\ No newline at end of file\n+It is important to spell check this document. On the other hand, a misspelled word isn't the end of the world. Nothing in the rest of this paragraph needs to be changed. Things can be added after it.\n+This paragraph contains important new additions to this document.\n\\ No newline at end of file"
   expect_equal(got, exp)
+
 })
 
 test_that("unidiff works", {
@@ -97,6 +103,60 @@ test_that("downloads work", {
   got <- unidiff(
     old = "https://raw.githubusercontent.com/JanMarvin/openxlsx2/8b99b77ebf00a89da07d4b81542efaba51551cd9/R/wb_load.R",
     new = "https://raw.githubusercontent.com/JanMarvin/openxlsx2/228c51fbe2b0da74b434ca5f2a4aa2c833397bd6/R/wb_load.R"
+  )
+  expect_equal(exp, got)
+
+  got <- unidiff(
+    old = "https://raw.githubusercontent.com/JanMarvin/openxlsx2/8b99b77ebf00a89da07d4b81542efaba51551cd9/R/wb_load.R",
+    new = "https://raw.githubusercontent.com/JanMarvin/openxlsx2/228c51fbe2b0da74b434ca5f2a4aa2c833397bd6/R/wb_load.R",
+    with_context = TRUE
+  )
+  expect_equal(75494L, nchar(got))
+
+})
+
+test_that("whitespace changes are handled", {
+
+  exp <- "===================================================================\n--- old\n+++ new\n@@ -1 +1 @@\n-a b\n\\ No newline at end of file\n+ a b\n\\ No newline at end of file"
+  got <- unidiff(
+    "a b",
+    " a b"
+  )
+  expect_equal(exp, got)
+
+  exp <- "===================================================================\n--- old\n+++ new\n"
+  got <- unidiff(
+    "a b\r\n",
+    " a b",
+    ignore_whitespace = "all"
+  )
+  expect_equal(exp, got)
+
+  got <- unidiff(
+    "\ta b\r\n",
+    "    a b\n",
+    ignore_whitespace = c("change")
+  )
+  expect_equal(exp, got)
+
+  got <- unidiff(
+    "\ta b\r\n",
+    "    a b\n\n",
+    ignore_whitespace = c("change", "blank_lines")
+  )
+  expect_equal(exp, got)
+
+  got <- unidiff(
+    "a b\r\n",
+    "a b\n",
+    ignore_whitespace = c("cr_at_eol")
+  )
+  expect_equal(exp, got)
+
+  got <- unidiff(
+    "a b \n",
+    "a b\n",
+    ignore_whitespace = c("at_eol")
   )
   expect_equal(exp, got)
 

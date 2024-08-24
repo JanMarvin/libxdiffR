@@ -4,13 +4,35 @@
 \alias{unidiff_dir}
 \title{Function to diff files between two directories}
 \usage{
-unidiff_dir(old, new, pattern = NULL)
+unidiff_dir(
+  old,
+  new,
+  pattern = NULL,
+  create_head = TRUE,
+  with_context = FALSE,
+  context_length = 3,
+  ignore_whitespace = NULL,
+  algorithm = "minimal",
+  indent_heuristic = FALSE
+)
 }
 \arguments{
 \item{old, new}{directories to check}
 
 \item{pattern}{an optional \link[base]{regular expression}.  Only file names
     which match the regular expression will be returned.}
+
+\item{create_head}{add a header to the file}
+
+\item{with_context}{add full context}
+
+\item{context_length}{length of context}
+
+\item{ignore_whitespace}{used a selection of c("all", "change", "at_eol", "cr_at_eol", "blank_lines")}
+
+\item{algorithm}{"minimal", "patience", or "histogram"}
+
+\item{indent_heuristic}{something ...}
 }
 \description{
 Function to diff files between two directories

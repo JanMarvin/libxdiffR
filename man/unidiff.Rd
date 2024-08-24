@@ -4,7 +4,16 @@
 \alias{unidiff}
 \title{create unified diffs}
 \usage{
-unidiff(old, new, create_head = TRUE)
+unidiff(
+  old,
+  new,
+  create_head = TRUE,
+  with_context = FALSE,
+  context_length = 3,
+  ignore_whitespace = NULL,
+  algorithm = "minimal",
+  indent_heuristic = FALSE
+)
 }
 \arguments{
 \item{old}{oldfile}
@@ -12,6 +21,16 @@ unidiff(old, new, create_head = TRUE)
 \item{new}{oldfile}
 
 \item{create_head}{add a header to the file}
+
+\item{with_context}{add full context}
+
+\item{context_length}{length of context}
+
+\item{ignore_whitespace}{used a selection of c("all", "change", "at_eol", "cr_at_eol", "blank_lines")}
+
+\item{algorithm}{"minimal", "patience", or "histogram"}
+
+\item{indent_heuristic}{something ...}
 }
 \description{
 create unified diffs
