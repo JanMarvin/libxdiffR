@@ -9,11 +9,20 @@ Authors@R: c(
   )
 Maintainer: Jan Marvin Garbuszus <jan.garbuszus@ruhr-uni-bochum.de>
 Description: Bundles xdiff to create unidiffs from R.
+URL: https://janmarvin.github.io/libxdiffR/, https://github.com/JanMarvin/libxdiffR
 License: GPL-2
 Encoding: UTF-8
+Language: en-US
 LazyData: true
 Imports: digest
-RoxygenNote: 7.3.2
 Suggests: 
-    testthat (>= 3.0.0), curl, fs, stringi
+    curl, 
+    fs, 
+    knitr,
+    stringi,
+    testthat (>= 3.0.0)
+VignetteBuilder:
+    knitr
+RoxygenNote: 7.3.2
+Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3

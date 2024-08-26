@@ -1,7 +1,9 @@
+CMD
+codebase
+codecov
+customizable
 jsdiff
 libgit
-oldfile
-rtools
 unbundled
 unidiffs
 xdiff

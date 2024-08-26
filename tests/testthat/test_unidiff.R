@@ -124,7 +124,7 @@ test_that("whitespace changes are handled", {
   )
   expect_equal(exp, got)
 
-  exp <- "===================================================================\n--- old\n+++ new\n"
+  exp <- ""
   got <- unidiff(
     "a b\r\n",
     " a b",

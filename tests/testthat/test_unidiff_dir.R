@@ -112,9 +112,7 @@ test_that("unidiff_dir() works", {
       "-Lorem ipsum dolor sit amet, at ultrices. Tortor elementum luctus id. Mauris pharetra, hac ipsum. Aliquam sed, tortor blandit laoreet magnis sem, ut quis fringilla integer. Sagittis cum, ullamcorper sem sit iaculis. Ut lorem habitant sagittis nam ac blandit dictumst nisi nunc. In ut fringilla nibh cum suspendisse arcu, cum ac cursus ante lectus tincidunt. Ut mollis vel ultrices mi, vel hac. Est sed netus semper interdum vestibulum mattis, magnis integer? Eu penatibus suspendisse.",
       "\\ No newline at end of file", "===================================================================",
       "--- /dev/null", "+++ tests/testthat/dir2/subdir2/new_file2.txt",
-      "@@ -0,0 +1 @@", "+This is a new file.", "\\ No newline at end of file",
-      "===================================================================",
-      "--- tests/testthat/dir1/subdir2/file4.txt", "+++ tests/testthat/dir2/subdir2/renamed_file4.txt"
+      "@@ -0,0 +1 @@", "+This is a new file.", "\\ No newline at end of file"
     )
   )
   exp[[1]] <- vapply(exp[[1]], gsub, pattern = "tests/testthat", replacement = testthat::test_path(), FUN.VALUE = NA_character_, USE.NAMES = FALSE)

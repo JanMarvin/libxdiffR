@@ -70,12 +70,20 @@ compare_directories <- function(old, new, pattern = NULL) {
 }
 
 
-#' Function to diff files between two directories
-#' @param old,new directories to check
+#' Compare Files Between Two Directories Using Unified Diffs
+#'
+#' The `unidiff_dir()` function compares files between two directories and generates unified diffs for each differing file. This function is useful for identifying and displaying differences between two directory structures, such as when comparing different versions of a codebase.
+#'
+#' @param old The directory path of the first directory to compare.
+#' @param new The directory path of the second directory to compare.
+#' @param pattern An optional regular expression. Only file names matching the pattern will be included in the comparison. Default is `NULL`, meaning all files are compared.
 #' @inheritParams base::list.files
 #' @inheritParams unidiff
+#'
+#' @return A character string containing the unified diffs for all differing files between the two directories.
 #' @export
 unidiff_dir <- function(old, new, pattern = NULL, create_head = TRUE, with_context = FALSE, context_length = 3, ignore_whitespace = NULL, algorithm = "minimal", indent_heuristic = FALSE) {
+
   comparison_result <- compare_directories(old, new, pattern = pattern)
 
   diffs <- vapply(seq_len(nrow(comparison_result)), function(x) {

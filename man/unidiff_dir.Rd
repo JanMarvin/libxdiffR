@@ -2,7 +2,7 @@
 % Please edit documentation in R/unidiff_dir.R
 \name{unidiff_dir}
 \alias{unidiff_dir}
-\title{Function to diff files between two directories}
+\title{Compare Files Between Two Directories Using Unified Diffs}
 \usage{
 unidiff_dir(
   old,
@@ -17,23 +17,27 @@ unidiff_dir(
 )
 }
 \arguments{
-\item{old, new}{directories to check}
+\item{old}{The directory path of the first directory to compare.}
 
-\item{pattern}{an optional \link[base]{regular expression}.  Only file names
-    which match the regular expression will be returned.}
+\item{new}{The directory path of the second directory to compare.}
 
-\item{create_head}{add a header to the file}
+\item{pattern}{An optional regular expression. Only file names matching the pattern will be included in the comparison. Default is \code{NULL}, meaning all files are compared.}
 
-\item{with_context}{add full context}
+\item{create_head}{A logical flag (default \code{TRUE}) indicating whether to include a header in the diff output. The header contains the filenames or identifiers of the files being compared.}
 
-\item{context_length}{length of context}
+\item{with_context}{A logical flag (default \code{FALSE}) specifying whether to include the full context in the diff output. Including context helps to provide a more complete view of the changes.}
 
-\item{ignore_whitespace}{used a selection of c("all", "change", "at_eol", "cr_at_eol", "blank_lines")}
+\item{context_length}{An integer value (default \code{3}) that determines the number of lines of context to include around each change. This is only relevant if with_context is \code{TRUE}.}
 
-\item{algorithm}{"minimal", "patience", or "histogram"}
+\item{ignore_whitespace}{A character vector indicating how whitespace differences should be treated. Options include \code{"all"}, \code{"change"}, \code{"at_eol"}, \code{"cr_at_eol"}, and \code{"blank_lines"}, allowing for fine-grained control over which whitespace differences to ignore.}
 
-\item{indent_heuristic}{something ...}
+\item{algorithm}{A string specifying the diff algorithm to use. Options are \code{"minimal"}, \code{"patience"}, and \code{"histogram"}, with \code{"minimal"} being the default. Each algorithm has different characteristics suited to various types of text comparisons.}
+
+\item{indent_heuristic}{A logical flag (default \code{FALSE}) that, when enabled, applies an additional heuristic to better handle indented lines, improving the accuracy of the diff in some cases.}
+}
+\value{
+A character string containing the unified diffs for all differing files between the two directories.
 }
 \description{
-Function to diff files between two directories
+The \code{unidiff_dir()} function compares files between two directories and generates unified diffs for each differing file. This function is useful for identifying and displaying differences between two directory structures, such as when comparing different versions of a codebase.
 }

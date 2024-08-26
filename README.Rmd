@@ -10,16 +10,19 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This package bundles the `xdiff` library from `git`. Originally this was an independent project that was bundled by the git project and has now been unbundled by the libgit2 project.
+`libxdiffR` is an R package that provides a seamless interface to the powerful `xdiff` library, enabling efficient file and directory comparison and three-way merging operations within the R environment. The package includes three primary functions that cater to various diff and merge scenarios:
 
-Our sources are from here: https://github.com/libgit2/xdiff
+* `unidiff()`: A wrapper around the `xdl_diff()` function from the `xdiff` library, `unidiff()` allows users to perform a unified diff between two files. This function is ideal for identifying differences in text files, such as source code or configuration files, and outputs the differences in the widely recognized unified diff format.
 
-Currently this package provides now three functions:
-```{r eval=FALSE}
-unidiff(old, new)
-unidiff_dir(old, new)
-merge3(base, ours, theirs)
-```
+* `unidiff_dir()`: This function extends the capabilities of `unidiff()` by enabling the comparison of entire directories. It recursively compares files within two directories, providing a detailed report of additions, deletions, and modifications. This is particularly useful for version control, backup verification, or synchronization tasks.
+
+* `merge3()`: A wrapper around the `xdl_merge()` function, `merge3()` facilitates three-way merging of files. This function is designed to handle complex merge scenarios, such as those encountered in collaborative development environments where multiple contributors may modify the same file. `merge3()` efficiently merges changes from a common ancestor file with two modified versions, helping to resolve conflicts and create a consolidated output.
+
+This package bundles the `xdiff` library from git. Originally, `xdiff` was an independent project (http://www.xmailserver.org/xdiff-lib.html) that was later bundled by the git project. The library has since been unbundled by the libgit2 project, and our sources are derived from the current version available at https://github.com/libgit2/xdiff.
+
+With `libxdiffR`, R users can easily incorporate robust diff and merge functionalities into their workflows, making it an essential tool for developers, data scientists, and anyone who needs to manage and compare file versions or directories in R.
+
+## Example
 
 This package can be used with [`diffr2`](https://github.com/JanMarvin/diffr2) as a replacement for the jsdiff tool.
 
