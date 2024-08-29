@@ -1,5 +1,5 @@
 #' @useDynLib libxdiffR R_diff_file
-diff_file <- function(ofile, nfile, difffile, funccontext, cntxtlen, ignore_whitespace, algorithm, indent) {
+diff_file <- function(ofile, nfile, difffile, funccontext, cntxtlen, ignore_whitespace, algorithm, indent, ignore) {
   stopifnot(is.character(ofile))
   stopifnot(is.character(nfile))
   stopifnot(is.character(difffile))
@@ -8,7 +8,8 @@ diff_file <- function(ofile, nfile, difffile, funccontext, cntxtlen, ignore_whit
   stopifnot(is.integer(ignore_whitespace))
   stopifnot(is.integer(algorithm))
   stopifnot(is.logical(indent))
-  .Call(R_diff_file, ofile, nfile, difffile, funccontext, cntxtlen, ignore_whitespace, algorithm, indent)
+  stopifnot(is.character(ignore))
+  .Call(R_diff_file, ofile, nfile, difffile, funccontext, cntxtlen, ignore_whitespace, algorithm, indent, ignore)
 }
 
 #' Compare Files Using Unified Diffs
@@ -18,6 +19,7 @@ diff_file <- function(ofile, nfile, difffile, funccontext, cntxtlen, ignore_whit
 #' The `unidiff()` function compares two inputs—whether they are files, URLs, or raw text—and generates a unified diff that highlights the differences between them. It supports advanced features like customizable context, whitespace handling, and different diff algorithms to suit various needs. The function can also handle inputs from URLs, making it flexible for remote file comparisons.
 #' The output is a unified diff string, which can be directly used in version control systems or for manual inspection of changes.
 #' For identical files, no diff is returned, and an empty character string is provided.
+#' If regex support is not available on the current platform and a non-empty pattern is provided, an error will be raised.
 #' @param old The original file or text input. This can be a file path, a URL, or a string of text.
 #' @param new The modified file or text input to compare against the original. This can also be a file path, a URL, or a string of text.
 #' @param create_head A logical flag (default `TRUE`) indicating whether to include a header in the diff output. The header contains the filenames or identifiers of the files being compared.
@@ -26,12 +28,14 @@ diff_file <- function(ofile, nfile, difffile, funccontext, cntxtlen, ignore_whit
 #' @param ignore_whitespace A character vector indicating how whitespace differences should be treated. Options include `"all"`, `"change"`, `"at_eol"`, `"cr_at_eol"`, and `"blank_lines"`, allowing for fine-grained control over which whitespace differences to ignore.
 #' @param algorithm  A string specifying the diff algorithm to use. Options are `"minimal"`, `"patience"`, and `"histogram"`, with `"minimal"` being the default. Each algorithm has different characteristics suited to various types of text comparisons.
 #' @param indent_heuristic A logical flag (default `FALSE`) that, when enabled, applies an additional heuristic to better handle indented lines, improving the accuracy of the diff in some cases.
+#' @param ignore A single string specifying the regex pattern to use for ignoring lines in the diff process. If this is a non-empty string, it should be a valid regex pattern. Lines in the texts that match this pattern will be ignored in the diff.
+#'
 #' @importFrom utils download.file
 #' @examples
 #' cat(unidiff(old = "foo bar", new = "foo baz"))
 #' @return A character string containing the unified diff.
 #' @export
-unidiff <- function(old, new, create_head = TRUE, with_context = FALSE, context_length = 3, ignore_whitespace = NULL, algorithm = "minimal", indent_heuristic = FALSE) {
+unidiff <- function(old, new, create_head = TRUE, with_context = FALSE, context_length = 3, ignore_whitespace = NULL, algorithm = "minimal", indent_heuristic = FALSE, ignore = NULL) {
 
   if (!is.character(old) || !is.character(new)) {
     stop("old and new must be characters")
@@ -106,8 +110,12 @@ unidiff <- function(old, new, create_head = TRUE, with_context = FALSE, context_
     "histogram" = 2L
   )
 
+  if (is.null(ignore)) {
+    ignore <- ""
+  }
+
   tmp <- tempfile()
-  if (diff_file(old, new, tmp, with_context, as.integer(context_length), iws, algorithm, indent_heuristic))
+  if (diff_file(old, new, tmp, with_context, as.integer(context_length), iws, algorithm, indent_heuristic, ignore))
     stop("unable to create diff")
 
   body <- paste0(readLines(tmp), collapse = "\n")

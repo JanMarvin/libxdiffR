@@ -82,7 +82,7 @@ compare_directories <- function(old, new, pattern = NULL) {
 #'
 #' @return A character string containing the unified diffs for all differing files between the two directories.
 #' @export
-unidiff_dir <- function(old, new, pattern = NULL, create_head = TRUE, with_context = FALSE, context_length = 3, ignore_whitespace = NULL, algorithm = "minimal", indent_heuristic = FALSE) {
+unidiff_dir <- function(old, new, pattern = NULL, create_head = TRUE, with_context = FALSE, context_length = 3, ignore_whitespace = NULL, algorithm = "minimal", indent_heuristic = FALSE, ignore = NULL) {
 
   comparison_result <- compare_directories(old, new, pattern = pattern)
 
@@ -95,7 +95,8 @@ unidiff_dir <- function(old, new, pattern = NULL, create_head = TRUE, with_conte
       context_length = context_length,
       ignore_whitespace = ignore_whitespace,
       algorithm = algorithm,
-      indent_heuristic = indent_heuristic
+      indent_heuristic = indent_heuristic,
+      ignore = ignore
     )
   }, NA_character_)
 

@@ -12,7 +12,8 @@ unidiff(
   context_length = 3,
   ignore_whitespace = NULL,
   algorithm = "minimal",
-  indent_heuristic = FALSE
+  indent_heuristic = FALSE,
+  ignore = NULL
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ unidiff(
 \item{algorithm}{A string specifying the diff algorithm to use. Options are \code{"minimal"}, \code{"patience"}, and \code{"histogram"}, with \code{"minimal"} being the default. Each algorithm has different characteristics suited to various types of text comparisons.}
 
 \item{indent_heuristic}{A logical flag (default \code{FALSE}) that, when enabled, applies an additional heuristic to better handle indented lines, improving the accuracy of the diff in some cases.}
+
+\item{ignore}{A single string specifying the regex pattern to use for ignoring lines in the diff process. If this is a non-empty string, it should be a valid regex pattern. Lines in the texts that match this pattern will be ignored in the diff.}
 }
 \value{
 A character string containing the unified diff.
@@ -42,6 +45,7 @@ A character string containing the unified diff.
 The \code{unidiff()} function compares two inputs—whether they are files, URLs, or raw text—and generates a unified diff that highlights the differences between them. It supports advanced features like customizable context, whitespace handling, and different diff algorithms to suit various needs. The function can also handle inputs from URLs, making it flexible for remote file comparisons.
 The output is a unified diff string, which can be directly used in version control systems or for manual inspection of changes.
 For identical files, no diff is returned, and an empty character string is provided.
+If regex support is not available on the current platform and a non-empty pattern is provided, an error will be raised.
 }
 \examples{
 cat(unidiff(old = "foo bar", new = "foo baz"))
