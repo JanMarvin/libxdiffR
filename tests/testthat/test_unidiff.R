@@ -161,3 +161,24 @@ test_that("whitespace changes are handled", {
   expect_equal(exp, got)
 
 })
+
+test_that("ignore regex works", {
+
+  skip_on_os("windows")
+
+  exp <- ""
+  got <- unidiff(
+    old = "Line 1\nIgnore This Line\nLine 3\n",
+    new = "Line 1\nIgnore this line\nLine 3\n",
+    ignore = "^[Ii]gnore.*$"
+  )
+  expect_equal(exp, got)
+
+  exp <- "===================================================================\n--- old\n+++ new\n@@ -1,3 +1,3 @@\n Line 1\n-Ignore This Line\n+Ignore this line\n Line 3"
+  got <- unidiff(
+    old = "Line 1\nIgnore This Line\nLine 3\n",
+    new = "Line 1\nIgnore this line\nLine 3\n"
+  )
+  expect_equal(exp, got)
+
+})

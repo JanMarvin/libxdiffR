@@ -14,7 +14,7 @@ static int write_diff(void *file, mmbuffer_t *mb, int nbuf)
   return 0;
 }
 
-SEXP R_diff_file(SEXP ofile, SEXP nfile, SEXP difffile, SEXP funccontext, SEXP ctxlen, SEXP ignore_whitespace, SEXP algorithm, SEXP indent) {
+SEXP R_diff_file(SEXP ofile, SEXP nfile, SEXP difffile, SEXP funccontext, SEXP ctxlen, SEXP ignore_whitespace, SEXP algorithm, SEXP indent, SEXP ignore) {
 
   int with_context   = LOGICAL(funccontext)[0];
   int contextlen     = INTEGER(ctxlen)[0];
@@ -26,6 +26,7 @@ SEXP R_diff_file(SEXP ofile, SEXP nfile, SEXP difffile, SEXP funccontext, SEXP c
   int algo           = INTEGER(algorithm)[0];
 
   int idheuristic    = INTEGER(indent)[0];
+
 
   // Extract strings from SEXP objects
   const char *ofile_str = CHAR(STRING_ELT(ofile, 0));
@@ -87,6 +88,25 @@ SEXP R_diff_file(SEXP ofile, SEXP nfile, SEXP difffile, SEXP funccontext, SEXP c
     xpp.flags |= XDF_INDENT_HEURISTIC;
   }
 
+  regex_t regex;
+  regex_t *regex_ptr __attribute__((unused)) = &regex;
+
+  if (TYPEOF(ignore) != STRSXP || LENGTH(ignore) != 1) {
+    Rf_error("Pattern must be a single string.");
+  }
+  const char *pttrn = CHAR(STRING_ELT(ignore, 0));
+
+  if (strcmp(pttrn, "") != 0) {
+#ifdef WITHOUT_REGEX_H
+      Rf_error("Regex is not supported on this platform, but a non-empty pattern was provided.");
+#else
+      int ret = regcomp(&regex, pttrn, REG_EXTENDED);
+      if (ret) Rf_error("Failed to compile regex pattern.");
+      xpp.ignore_regex = &regex_ptr;
+      xpp.ignore_regex_nr = 1;
+#endif
+  }
+
   xecfg.ctxlen = contextlen;
   xecfg.flags = XDL_EMIT_FUNCNAMES;
   if (with_context) {
@@ -97,6 +117,11 @@ SEXP R_diff_file(SEXP ofile, SEXP nfile, SEXP difffile, SEXP funccontext, SEXP c
 
   int out = xdl_diff(&f1, &f2, &xpp, &xecfg, &ecb);
   fclose(outfile);
+
+#ifndef WITHOUT_REGEX_H
+  if (strcmp(pttrn, "") != 0)
+    regfree(regex_ptr);
+#endif
 
   return Rf_ScalarInteger(out);
 }

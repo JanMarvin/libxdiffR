@@ -1,7 +1,7 @@
 Package: libxdiffR
 Type: Package
 Title: provides xdiff access
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
   person("Jan Marvin", "Garbuszus", email = "jan.garbuszus@ruhr-uni-bochum.de", role = c("aut", "cre")),
   person("git project", role = c("cph"), comment = "Authors of included xdiff code"),
@@ -21,8 +21,6 @@ Suggests:
     knitr,
     stringi,
     testthat (>= 3.0.0)
-VignetteBuilder:
-    knitr
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3

@@ -51,6 +51,8 @@
 #include <Rversion.h>
 #if defined(_WIN32) && defined(R_VERSION) && R_VERSION < R_Version(4, 2, 0)
 
+#define WITHOUT_REGEX_H 1
+
 // avoid Wincompatible-pointer-types warnings, define the structs so that we
 // bail silently
 typedef struct {

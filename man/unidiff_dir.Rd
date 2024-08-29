@@ -13,7 +13,8 @@ unidiff_dir(
   context_length = 3,
   ignore_whitespace = NULL,
   algorithm = "minimal",
-  indent_heuristic = FALSE
+  indent_heuristic = FALSE,
+  ignore = NULL
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ unidiff_dir(
 \item{algorithm}{A string specifying the diff algorithm to use. Options are \code{"minimal"}, \code{"patience"}, and \code{"histogram"}, with \code{"minimal"} being the default. Each algorithm has different characteristics suited to various types of text comparisons.}
 
 \item{indent_heuristic}{A logical flag (default \code{FALSE}) that, when enabled, applies an additional heuristic to better handle indented lines, improving the accuracy of the diff in some cases.}
+
+\item{ignore}{A single string specifying the regex pattern to use for ignoring lines in the diff process. If this is a non-empty string, it should be a valid regex pattern. Lines in the texts that match this pattern will be ignored in the diff.}
 }
 \value{
 A character string containing the unified diffs for all differing files between the two directories.
