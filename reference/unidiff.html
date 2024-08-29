@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">libxdiffR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.1</span>
       </span>
     </div>
 
@@ -58,7 +58,8 @@
 <span>  context_length <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  ignore_whitespace <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  algorithm <span class="op">=</span> <span class="st">"minimal"</span>,</span>
-<span>  indent_heuristic <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  indent_heuristic <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ignore <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -97,6 +98,10 @@
 <dt id="arg-indent-heuristic">indent_heuristic<a class="anchor" aria-label="anchor" href="#arg-indent-heuristic"></a></dt>
 <dd><p>A logical flag (default <code>FALSE</code>) that, when enabled, applies an additional heuristic to better handle indented lines, improving the accuracy of the diff in some cases.</p></dd>
 
+
+<dt id="arg-ignore">ignore<a class="anchor" aria-label="anchor" href="#arg-ignore"></a></dt>
+<dd><p>A single string specifying the regex pattern to use for ignoring lines in the diff process. If this is a non-empty string, it should be a valid regex pattern. Lines in the texts that match this pattern will be ignored in the diff.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -106,7 +111,8 @@
     <h2>Details</h2>
     <p>The <code>unidiff()</code> function compares two inputs—whether they are files, URLs, or raw text—and generates a unified diff that highlights the differences between them. It supports advanced features like customizable context, whitespace handling, and different diff algorithms to suit various needs. The function can also handle inputs from URLs, making it flexible for remote file comparisons.
 The output is a unified diff string, which can be directly used in version control systems or for manual inspection of changes.
-For identical files, no diff is returned, and an empty character string is provided.</p>
+For identical files, no diff is returned, and an empty character string is provided.
+If regex support is not available on the current platform and a non-empty pattern is provided, an error will be raised.</p>
     </div>
 
     <div id="ref-examples">
