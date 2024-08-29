@@ -75,10 +75,26 @@
 <p>This package bundles the <code>xdiff</code> library from git. Originally, <code>xdiff</code> was an independent project (<a href="http://www.xmailserver.org/xdiff-lib.html" class="external-link uri">http://www.xmailserver.org/xdiff-lib.html</a>) that was later bundled by the git project. The library has since been unbundled by the libgit2 project, and our sources are derived from the current version available at <a href="https://github.com/libgit2/xdiff" class="external-link uri">https://github.com/libgit2/xdiff</a>.</p>
 <p>With <code>libxdiffR</code>, R users can easily incorporate robust diff and merge functionalities into their workflows, making it an essential tool for developers, data scientists, and anyone who needs to manage and compare file versions or directories in R.</p>
 <div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the development version of <code>libxdiffR</code> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"JanMarvin/libxdiffR"</span><span class="op">)</span></span></code></pre></div>
+<p>Or from <a href="https://r-universe.dev/" class="external-link">r-universe</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Enable repository from janmarvin</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  janmarvin <span class="op">=</span> <span class="st">'https://janmarvin.r-universe.dev'</span>,</span>
+<span>  CRAN <span class="op">=</span> <span class="st">'https://cloud.r-project.org'</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># Download and install libxdiffR in R</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'libxdiffR'</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>This package can be used with <a href="https://github.com/JanMarvin/diffr2" class="external-link"><code>diffr2</code></a> as a replacement for the jsdiff tool.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">old</span> <span class="op">&lt;-</span> <span class="st">"This part of the document has stayed the same from version to version.  It shouldn't be shown if it doesn't change.  Otherwise, that would not be helping to compress the size of the changes.</span></span>
 <span><span class="st">This paragraph contains text that is outdated. It will be deleted in the near future.</span></span>
 <span><span class="st">It is important to spell check this dokument. On the other hand, a misspelled word isn't the end of the world. Nothing in the rest of this paragraph needs to be changed. Things can be added after it."</span></span>
