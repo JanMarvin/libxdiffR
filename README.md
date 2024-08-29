@@ -42,6 +42,27 @@ functionalities into their workflows, making it an essential tool for
 developers, data scientists, and anyone who needs to manage and compare
 file versions or directories in R.
 
+## Installation
+
+You can install the development version of `libxdiffR` from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("JanMarvin/libxdiffR")
+```
+
+Or from [r-universe](https://r-universe.dev/) with:
+
+``` r
+# Enable repository from janmarvin
+options(repos = c(
+  janmarvin = 'https://janmarvin.r-universe.dev',
+  CRAN = 'https://cloud.r-project.org'))
+# Download and install libxdiffR in R
+install.packages('libxdiffR')
+```
+
 ## Example
 
 This package can be used with
