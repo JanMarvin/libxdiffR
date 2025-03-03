@@ -5,7 +5,7 @@
 #' @noRd
 generate_md5_df <- function(directory, pattern = NULL) {
   # Get a list of all files in the directory and its subdirectories
-  files <- dir(directory, recursive = TRUE, full.names = TRUE)
+  files <- dir(directory, recursive = TRUE, full.names = TRUE, pattern = pattern)
 
   # Create a data frame with file names and their MD5 hashes
   md5_df <- data.frame(
