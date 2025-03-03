@@ -94,7 +94,7 @@ merge3 <- function(base, merge1, merge2, level = "minimal", favor = NULL, style 
     merge2 <- paste0(readLines(merge2, warn = FALSE), collapse = "\n")
   }
 
-  level <- switch (
+  level <- switch(
     level,
     "minimal"        = 0L, # XDL_MERGE_MINIMAL
     "eager"          = 1L, # XDL_MERGE_EAGER
@@ -104,7 +104,7 @@ merge3 <- function(base, merge1, merge2, level = "minimal", favor = NULL, style 
 
   if (is.null(favor)) favor <- "null"
 
-  favor <- switch (
+  favor <- switch(
     favor,
     "null"   = 0L,
     "ours"   = 1L, # XDL_MERGE_FAVOR_OURS
@@ -114,7 +114,7 @@ merge3 <- function(base, merge1, merge2, level = "minimal", favor = NULL, style 
 
   if (is.null(style)) style <- "null"
 
-  style <- switch (
+  style <- switch(
     style,
     "null"   = 0L,
     "diff3"  = 1L, # XDL_MERGE_DIFF3
